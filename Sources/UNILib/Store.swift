@@ -17,6 +17,8 @@ struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
   let transform: Transform
 }
 
+typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> AnyCancellable?
+
 final class Store<State: Hashable, Action> {
 
   private let reducer: Reducer<State, Action>
@@ -46,6 +48,11 @@ final class Store<State: Hashable, Action> {
   
   deinit {
     print("\(self) dealloc")
+  }
+  
+  func attach(_ plugin: IndependentPlugin<State, Action>) {
+    weak var weakSelf = self
+    plugin(weakSelf)?.store(in: &disposeBag)
   }
   
   func attach<T>(_ plugin: Plugin<State, T, Action>) {
