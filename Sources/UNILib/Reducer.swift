@@ -40,6 +40,10 @@ public protocol Monoid {
 
 public struct Reducer<State, Action> {
   public let reduce: (State, Action) -> State
+  
+  public init(reduce: @escaping (State, Action) -> State) {
+    self.reduce = reduce
+  }
 }
 
 extension Reducer: Monoid {
