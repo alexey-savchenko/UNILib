@@ -9,11 +9,11 @@
 
 import UIKit
 
-enum PresentationContext {
+public enum PresentationContext {
   case push(presentingController: UINavigationController)
   case modal(presentingController: UIViewController)
   
-  var navigationController: UINavigationController? {
+  public var navigationController: UINavigationController? {
     switch self {
     case .push(let presentingController):
       return presentingController
@@ -22,7 +22,7 @@ enum PresentationContext {
     }
   }
   
-  func present(_ target: UIViewController, animated: Bool) {
+  public func present(_ target: UIViewController, animated: Bool) {
     switch self {
     case .modal(let presentingController):
       presentingController.present(target,
@@ -34,7 +34,7 @@ enum PresentationContext {
     }
   }
   
-  func dismiss(_ target: UIViewController, animated: Bool) {
+  public func dismiss(_ target: UIViewController, animated: Bool) {
     switch self {
     case .modal:
       target.dismiss(animated: animated, completion: nil)
@@ -43,7 +43,7 @@ enum PresentationContext {
     }
   }
   
-  func dismissToRoot(_ target: UIViewController, animated: Bool) {
+  public func dismissToRoot(_ target: UIViewController, animated: Bool) {
     switch self {
     case .modal:
       target.dismiss(animated: animated, completion: nil)
@@ -52,7 +52,7 @@ enum PresentationContext {
     }
   }
   
-  func dismissPresented(animated: Bool) {
+  public func dismissPresented(animated: Bool) {
     switch self {
     case .push(let presentingController):
       presentingController.popViewController(animated: animated)
