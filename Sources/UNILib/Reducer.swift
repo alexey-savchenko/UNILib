@@ -39,7 +39,7 @@ public protocol Monoid {
 }
 
 public struct Reducer<State, Action> {
-  let reduce: (State, Action) -> State
+  public let reduce: (State, Action) -> State
 }
 
 extension Reducer: Monoid {
