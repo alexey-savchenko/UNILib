@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-public class BaseCoordinator<ResultType>: NSObject {
+open class BaseCoordinator<ResultType>: NSObject {
 
   /// Typealias which will allows to access a ResultType of the Coordainator by `CoordinatorName.CoordinationResult`.
   typealias CoordinationResult = ResultType
