@@ -1,16 +1,7 @@
-//
-//  Lens+Prism.swift
-//  Scanner
-//
-//  Created by Vadym Yakovlev on 29.01.2020.
-//  Copyright © 2020 Vadym Yakovlev. All rights reserved.
-//
-
-import Foundation
 
 public struct Lens<Whole, Part> {
-  let get: (Whole) -> Part
-  let set: (Part) -> (Whole) -> Whole
+  public let get: (Whole) -> Part
+  public let set: (Part) -> (Whole) -> Whole
   
   public init(
     get: @escaping (Whole) -> Part,
@@ -22,8 +13,8 @@ public struct Lens<Whole, Part> {
 }
 
 public struct Prism<Whole, Part> {
-  let tryGet: (Whole) -> Part?
-  let inject: (Part) -> Whole
+  public let tryGet: (Whole) -> Part?
+  public let inject: (Part) -> Whole
   
   public init(
     tryGet: @escaping (Whole) -> Part?,
