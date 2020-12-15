@@ -49,7 +49,7 @@ open class BaseCoordinator<ResultType>: NSObject {
   /// Starts job of the coordinator.
   ///
   /// - Returns: Result of coordinator job.
-  public func start() -> AnyPublisher<ResultType, Never> {
+  open func start() -> AnyPublisher<ResultType, Never> {
     fatalError("Start method should be implemented.")
   }
 
