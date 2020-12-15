@@ -28,17 +28,17 @@ public final class Store<State: Hashable, Action> {
   private let reduceQueue = DispatchQueue(label: "Reduce_queue",
                                           qos: .background,
                                           autoreleaseFrequency: .workItem)
-  var middleware: [Middleware<State, Action>] = [] {
+  public var middleware: [Middleware<State, Action>] = [] {
     didSet {
       dispatchFunction = createDispatchFunction()
     }
   }
   
-  var stateObservable: AnyPublisher<State, Never> {
+  public var stateObservable: AnyPublisher<State, Never> {
     return state.eraseToAnyPublisher()
   }
   
-  init(inputState: State,
+  public init(inputState: State,
        middleware: [Middleware<State, Action>],
        reducer: Reducer<State, Action>) {
     self.middleware = middleware
