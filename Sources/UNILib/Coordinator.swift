@@ -1,8 +1,7 @@
 import Foundation
 import Combine
 
-@available(OSX 10.15, *)
-class BaseCoordinator<ResultType>: NSObject {
+public class BaseCoordinator<ResultType>: NSObject {
 
   /// Typealias which will allows to access a ResultType of the Coordainator by `CoordinatorName.CoordinationResult`.
   typealias CoordinationResult = ResultType
@@ -39,7 +38,7 @@ class BaseCoordinator<ResultType>: NSObject {
   ///
   /// - Parameter coordinator: Coordinator to start.
   /// - Returns: Result of `start()` method.
-  func coordinate<T>(to coordinator: BaseCoordinator<T>) -> AnyPublisher<T, Never> {
+  public func coordinate<T>(to coordinator: BaseCoordinator<T>) -> AnyPublisher<T, Never> {
     store(coordinator: coordinator)
     return coordinator
       .start()
@@ -50,7 +49,7 @@ class BaseCoordinator<ResultType>: NSObject {
   /// Starts job of the coordinator.
   ///
   /// - Returns: Result of coordinator job.
-  func start() -> AnyPublisher<ResultType, Never> {
+  public func start() -> AnyPublisher<ResultType, Never> {
     fatalError("Start method should be implemented.")
   }
 

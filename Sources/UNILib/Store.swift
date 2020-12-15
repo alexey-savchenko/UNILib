@@ -2,13 +2,13 @@
 import Foundation
 import Combine
 
-typealias DispatchFunction<Action> = (Action) -> Void
-typealias Middleware<State, Action> =
+public typealias DispatchFunction<Action> = (Action) -> Void
+public typealias Middleware<State, Action> =
   (@escaping DispatchFunction<Action>, @escaping () -> State?)
   -> (@escaping DispatchFunction<Action>)
   -> DispatchFunction<Action>
 
-struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
+public struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
   
   typealias Body = (@escaping DispatchFunction<Action>) -> (LocalState) -> Void
   typealias Transform = (ParentState) -> LocalState
@@ -17,9 +17,9 @@ struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
   let transform: Transform
 }
 
-typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> AnyCancellable?
+public typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> AnyCancellable?
 
-final class Store<State: Hashable, Action> {
+public final class Store<State: Hashable, Action> {
 
   private let reducer: Reducer<State, Action>
   private var disposeBag = Set<AnyCancellable>()
@@ -50,12 +50,12 @@ final class Store<State: Hashable, Action> {
     print("\(self) dealloc")
   }
   
-  func attach(_ plugin: IndependentPlugin<State, Action>) {
+  public func attach(_ plugin: IndependentPlugin<State, Action>) {
     weak var weakSelf = self
     plugin(weakSelf)?.store(in: &disposeBag)
   }
   
-  func attach<T>(_ plugin: Plugin<State, T, Action>) {
+  public func attach<T>(_ plugin: Plugin<State, T, Action>) {
     stateObservable
       .map(plugin.transform)
       .removeDuplicates()
@@ -64,7 +64,7 @@ final class Store<State: Hashable, Action> {
       .store(in: &disposeBag)
   }
   
-  func dispatch(_ action: Action) {
+  public func dispatch(_ action: Action) {
     dispatchFunction(action)
   }
   
@@ -89,9 +89,8 @@ final class Store<State: Hashable, Action> {
   }
 }
 
-extension Store {
+public extension Store {
   func dispatch(_ actions: [Action]) {
     actions.forEach(dispatch)
   }
 }
-

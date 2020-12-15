@@ -14,7 +14,7 @@ precedencegroup ApplicationPrecedence {
 
 infix operator <>: CompositionPrecedence
 
-func <> <Whole, A, B> (
+public func <> <Whole, A, B> (
   lhs: Lens<Whole, A>,
   rhs: Lens<Whole, B>
 ) -> Lens<Whole, (A, B)> {
@@ -29,74 +29,33 @@ func <> <Whole, A, B> (
   })
 }
 
-infix operator |>: ApplicationPrecedence
-
-func |><I, O> (lhs: I, rhs: (I) -> O) -> O {
-  return rhs(lhs)
-}
-
-func |><I, O> (lhs: I?, rhs: (I) -> O?) -> O? {
-  return lhs.flatMap(rhs)
-}
-
-func |><I, O> (lhs: I, rhs: (I) -> O?) -> O? {
-  return rhs(lhs)
-}
-
-/// Functional composition
-///
-func map<I, O, O2>(lhs: @escaping (I) -> O,
-                   rhs: @escaping (O) -> O2) -> (I) -> O2 {
-  return { input in
-    return rhs(lhs(input))
-  }
-}
-
-func map<I, O, O2>(lhs: @escaping (I) -> O?,
-                   rhs: @escaping (O) -> O2?) -> (I) -> O2? {
-  return { input in
-    return lhs(input).flatMap(rhs)
-  }
-}
-
-infix operator <*>: CompositionPrecedence
-func <*><I, O, O2> (lhs: @escaping (I) -> O,
-                   rhs: @escaping (O) -> O2) -> (I) -> O2 {
-  return map(lhs: lhs, rhs: rhs)
-}
-
-func <*><I, O, O2> (lhs: @escaping (I) -> O?,
-                   rhs: @escaping (O) -> O2?) -> (I) -> O2? {
-  return map(lhs: lhs, rhs: rhs)
-}
-
 precedencegroup MonoidAppend {
   associativity: left
 }
 
-protocol Monoid {
+public protocol Monoid {
   static var empty: Self { get }
   static func <> (lhs: Self, rhs: Self) -> Self
 }
 
-struct Reducer<State, Action> {
+public struct Reducer<State, Action> {
   let reduce: (State, Action) -> State
 }
 
 extension Reducer: Monoid {
-  static func <> (lhs: Reducer<State, Action>,
+  public static func <> (lhs: Reducer<State, Action>,
                   rhs: Reducer<State, Action>) -> Reducer<State, Action> {
     return Reducer<State, Action>(reduce: { (s, a) in
       return rhs.reduce(lhs.reduce(s, a), a)
     })
   }
   
-  static var empty: Reducer<State, Action> {
+  public static var empty: Reducer<State, Action> {
     return Reducer { s, _ in s }
   }
 }
 
-extension Reducer {
+public extension Reducer {
   func lift<GlobalState>(
     localStateLens: Lens<GlobalState, State>
   ) -> Reducer<GlobalState, Action> {

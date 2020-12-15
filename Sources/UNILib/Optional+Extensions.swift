@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Optional {
+public extension Optional {
   func mapNil(_ f: () -> Wrapped) -> Wrapped? {
     switch self {
     case .none:
