@@ -57,7 +57,7 @@ public func toArray<E>(_ item: E) -> [E] {
 // MARK: - Expand Optional -
 
 /// Two optionals to one optional tuple
-func zip2<A, B>(
+public func zip2<A, B>(
   _ variant1: Optional<A>,
   _ variant2: Optional<B>
 ) -> Optional<(A, B)> {
@@ -67,7 +67,7 @@ func zip2<A, B>(
 }
 
 /// Three optionals to one optional tuple
-func zip3<A, B, C>(
+public func zip3<A, B, C>(
   _ variant1: Optional<A>,
   _ variant2: Optional<B>,
   _ variant3: Optional<C>
