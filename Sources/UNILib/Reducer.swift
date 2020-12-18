@@ -3,17 +3,37 @@ import Foundation
 
 precedencegroup CompositionPrecedence {
   associativity: right
-  higherThan: ApplicationPrecedence, AssignmentPrecedence
+  higherThan: AssignmentPrecedence
 }
 
-precedencegroup ApplicationPrecedence {
-  associativity: left
+/// Functional composition
+///
+func map<I, O, O2>(lhs: @escaping (I) -> O,
+                   rhs: @escaping (O) -> O2) -> (I) -> O2 {
+  return { input in
+    return rhs(lhs(input))
+  }
 }
 
-// MARK: - CompositionPrecedence for Prism
+func map<I, O, O2>(lhs: @escaping (I) -> O?,
+                   rhs: @escaping (O) -> O2?) -> (I) -> O2? {
+  return { input in
+    return lhs(input).flatMap(rhs)
+  }
+}
+
+infix operator <*>: CompositionPrecedence
+func <*><I, O, O2> (lhs: @escaping (I) -> O,
+                   rhs: @escaping (O) -> O2) -> (I) -> O2 {
+  return map(lhs: lhs, rhs: rhs)
+}
+
+func <*><I, O, O2> (lhs: @escaping (I) -> O?,
+                   rhs: @escaping (O) -> O2?) -> (I) -> O2? {
+  return map(lhs: lhs, rhs: rhs)
+}
 
 infix operator <>: CompositionPrecedence
-
 public func <> <Whole, A, B> (
   lhs: Lens<Whole, A>,
   rhs: Lens<Whole, B>
