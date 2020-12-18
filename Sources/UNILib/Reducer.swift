@@ -8,14 +8,14 @@ precedencegroup CompositionPrecedence {
 
 /// Functional composition
 ///
-func map<I, O, O2>(lhs: @escaping (I) -> O,
+public func map<I, O, O2>(lhs: @escaping (I) -> O,
                    rhs: @escaping (O) -> O2) -> (I) -> O2 {
   return { input in
     return rhs(lhs(input))
   }
 }
 
-func map<I, O, O2>(lhs: @escaping (I) -> O?,
+public func map<I, O, O2>(lhs: @escaping (I) -> O?,
                    rhs: @escaping (O) -> O2?) -> (I) -> O2? {
   return { input in
     return lhs(input).flatMap(rhs)
@@ -23,12 +23,12 @@ func map<I, O, O2>(lhs: @escaping (I) -> O?,
 }
 
 infix operator <*>: CompositionPrecedence
-func <*><I, O, O2> (lhs: @escaping (I) -> O,
+public func <*><I, O, O2> (lhs: @escaping (I) -> O,
                    rhs: @escaping (O) -> O2) -> (I) -> O2 {
   return map(lhs: lhs, rhs: rhs)
 }
 
-func <*><I, O, O2> (lhs: @escaping (I) -> O?,
+public func <*><I, O, O2> (lhs: @escaping (I) -> O?,
                    rhs: @escaping (O) -> O2?) -> (I) -> O2? {
   return map(lhs: lhs, rhs: rhs)
 }
