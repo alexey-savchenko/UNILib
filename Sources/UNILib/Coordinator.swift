@@ -7,7 +7,7 @@ open class BaseCoordinator<ResultType>: NSObject {
   typealias CoordinationResult = ResultType
 
   /// Utility `DisposeBag` used by the subclasses.
-  let disposeBag = Set<AnyCancellable>()
+  public let subscriptions = Set<AnyCancellable>()
 
   /// Unique identifier.
   private let identifier = UUID()
