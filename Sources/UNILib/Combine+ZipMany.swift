@@ -7,18 +7,18 @@
 
 import Combine
 
-extension Publishers {
+public extension Publishers {
   struct ZipMany<Element, F: Error>: Publisher {
-    typealias Output = [Element]
-    typealias Failure = F
+    public typealias Output = [Element]
+    public typealias Failure = F
     
     private let upstreams: [AnyPublisher<Element, F>]
     
-    init(_ upstreams: [AnyPublisher<Element, F>]) {
+    public init(_ upstreams: [AnyPublisher<Element, F>]) {
       self.upstreams = upstreams
     }
     
-    func receive<S: Subscriber>(subscriber: S) where Self.Failure == S.Failure, Self.Output == S.Input {
+    public func receive<S: Subscriber>(subscriber: S) where Self.Failure == S.Failure, Self.Output == S.Input {
       let initial = Just<[Element]>([])
         .setFailureType(to: F.self)
         .eraseToAnyPublisher()
