@@ -34,6 +34,10 @@ public func toVoid(_ value: Any) -> Void {
   return Void()
 }
 
+public func breakpoint(_ value: Any) {
+  print("breapoint")
+}
+
 public func empty(_ value: Any) {
   
 }
