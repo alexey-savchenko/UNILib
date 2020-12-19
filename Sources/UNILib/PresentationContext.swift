@@ -67,12 +67,16 @@ public protocol PresentationContext {
   func dismiss(_ controller: UIViewController, animated: Bool)
 }
 
-public class PushPresentationContext: PresentationContext {
+public class NavigationControllerPresentationContext: PresentationContext {
   
   let navigationController: UINavigationController
   
   public init(navigationController: UINavigationController) {
     self.navigationController = navigationController
+  }
+  
+  public func set(_ controller: UIViewController, animated: Bool) {
+    navigationController.setViewControllers([controller], animated: animated)
   }
   
   public func present(_ controller: UIViewController, animated: Bool) {
