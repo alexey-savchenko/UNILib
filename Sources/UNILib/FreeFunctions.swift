@@ -34,6 +34,10 @@ public func toVoid(_ value: Any) -> Void {
   return Void()
 }
 
+public func empty(_ value: Any) {
+  
+}
+
 public func identity<T>(_ item: T) -> T {
   return item
 }
