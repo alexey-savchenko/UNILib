@@ -62,7 +62,7 @@ import UIKit
 //  }
 //}
 
-public protocol PresentationContext {
+public protocol PresentationContext: class {
   func present(_ controller: UIViewController, animated: Bool)
   func dismiss(_ controller: UIViewController, animated: Bool)
 }
