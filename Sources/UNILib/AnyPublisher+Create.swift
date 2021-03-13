@@ -16,7 +16,7 @@ public struct AnyObserver<Output, Failure: Error> {
 public struct Disposable {
   public let dispose: () -> Void
   
-  static let create = Disposable(dispose: {})
+  public static let create = Disposable(dispose: {})
 }
 
 public extension AnyPublisher {
