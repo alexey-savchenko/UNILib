@@ -8,13 +8,13 @@
 import Combine
 
 public struct AnyObserver<Output, Failure: Error> {
-  let onNext: ((Output) -> Void)
-  let onError: ((Failure) -> Void)
-  let onComplete: (() -> Void)
+  public let onNext: ((Output) -> Void)
+  public let onError: ((Failure) -> Void)
+  public let onComplete: (() -> Void)
 }
 
 public struct Disposable {
-  let dispose: () -> Void
+  public let dispose: () -> Void
   
   static let create = Disposable(dispose: {})
 }
