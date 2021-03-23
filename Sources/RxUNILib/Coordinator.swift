@@ -1,13 +1,19 @@
+//
+//  File.swift
+//  
+//
+//  Created by Alexey Savchenko on 23.03.2021.
+//
+
 import Foundation
-import Combine
+import RxSwift
 
-open class BaseCoordinator<ResultType>: NSObject {
-
+class BaseCoordinator<ResultType>: NSObject {
   /// Typealias which will allows to access a ResultType of the Coordainator by `CoordinatorName.CoordinationResult`.
   typealias CoordinationResult = ResultType
 
   /// Utility `DisposeBag` used by the subclasses.
-  public var subscriptions = Set<AnyCancellable>()
+  let disposeBag = DisposeBag()
 
   /// Unique identifier.
   private let identifier = UUID()
@@ -38,18 +44,17 @@ open class BaseCoordinator<ResultType>: NSObject {
   ///
   /// - Parameter coordinator: Coordinator to start.
   /// - Returns: Result of `start()` method.
-  public func coordinate<T>(to coordinator: BaseCoordinator<T>) -> AnyPublisher<T, Never> {
+  func coordinate<T>(to coordinator: BaseCoordinator<T>) -> Observable<T> {
     store(coordinator: coordinator)
     return coordinator
       .start()
-      .handleEvents(receiveOutput: { [weak self] _ in self?.free(coordinator: coordinator) })
-      .eraseToAnyPublisher()
+      .do(onNext: { [weak self] _ in self?.free(coordinator: coordinator) })
   }
 
   /// Starts job of the coordinator.
   ///
   /// - Returns: Result of coordinator job.
-  open func start() -> AnyPublisher<ResultType, Never> {
+  func start() -> Observable<ResultType> {
     fatalError("Start method should be implemented.")
   }
 

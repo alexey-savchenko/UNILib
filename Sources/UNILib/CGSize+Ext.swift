@@ -5,6 +5,8 @@
 //  Created by Alexey Savchenko on 23.03.2021.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 extension CGSize: Comparable {
@@ -12,3 +14,5 @@ extension CGSize: Comparable {
     return (lhs.width * lhs.height) < (rhs.width * rhs.height)
   }
 }
+
+#endif

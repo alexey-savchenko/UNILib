@@ -5,29 +5,33 @@ import PackageDescription
 
 let package = Package(
   name: "UNILib",
-  platforms: [.iOS(.v13),
-              .macOS(SupportedPlatform.MacOSVersion.v10_15)],
+  platforms: [
+    .iOS(.v13)
+  ],
   products: [
-    // Products define the executables and libraries a package produces, and make them visible to other packages.
     .library(
       name: "UNILib",
-      targets: ["UNILib"]),
-  ],
-  dependencies: [
-    // Dependencies declare other packages that this package depends on.
-    .package(
-      url: "https://github.com/alexey-savchenko/promisify.git",
-      Package.Dependency.Requirement.branch("main")
+      targets: ["UNILib"]
+    ),
+    .library(
+      name: "RxUNILib",
+      targets: ["RxUNILib"]
     ),
   ],
+  dependencies: [
+    .package(
+      url: "https://github.com/ReactiveX/RxSwift.git",
+      .exact("6.1.0")
+    )
+  ],
   targets: [
-    // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-    // Targets can depend on other targets in this package, and on products in packages this package depends on.
     .target(
       name: "UNILib",
-      dependencies: []),
-    .testTarget(
-      name: "UNILibTests",
-      dependencies: ["UNILib"]),
+      dependencies: []
+    ),
+    .target(
+      name: "RxUNILib",
+      dependencies: ["UNILib", "RxSwift"]
+    ),
   ]
 )
