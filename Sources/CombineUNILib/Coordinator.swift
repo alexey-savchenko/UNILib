@@ -3,9 +3,6 @@ import Combine
 
 open class BaseCoordinator<ResultType>: NSObject {
 
-  /// Typealias which will allows to access a ResultType of the Coordainator by `CoordinatorName.CoordinationResult`.
-  typealias CoordinationResult = ResultType
-
   /// Utility `DisposeBag` used by the subclasses.
   public var subscriptions = Set<AnyCancellable>()
 

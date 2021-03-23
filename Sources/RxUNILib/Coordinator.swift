@@ -8,12 +8,10 @@
 import Foundation
 import RxSwift
 
-class RxBaseCoordinator<ResultType>: NSObject {
-  /// Typealias which will allows to access a ResultType of the Coordainator by `CoordinatorName.CoordinationResult`.
-  typealias CoordinationResult = ResultType
+open class RxBaseCoordinator<ResultType>: NSObject {
 
   /// Utility `DisposeBag` used by the subclasses.
-  let disposeBag = DisposeBag()
+  public let disposeBag = DisposeBag()
 
   /// Unique identifier.
   private let identifier = UUID()
@@ -22,7 +20,7 @@ class RxBaseCoordinator<ResultType>: NSObject {
   /// to that dictionary in order to keep it in memory.
   /// Key is an `identifier` of the child coordinator and value is the coordinator itself.
   /// Value type is `Any` because Swift doesn't allow to store generic types in the array.
-  var childCoordinators = [UUID: Any]()
+  public var childCoordinators = [UUID: Any]()
 
   /// Stores coordinator to the `childCoordinators` dictionary.
   ///
@@ -34,7 +32,7 @@ class RxBaseCoordinator<ResultType>: NSObject {
   /// Release coordinator from the `childCoordinators` dictionary.
   ///
   /// - Parameter coordinator: Coordinator to release.
-  func free<T>(coordinator: RxBaseCoordinator<T>) {
+  public func free<T>(coordinator: RxBaseCoordinator<T>) {
     childCoordinators[coordinator.identifier] = nil
   }
 
@@ -44,7 +42,7 @@ class RxBaseCoordinator<ResultType>: NSObject {
   ///
   /// - Parameter coordinator: Coordinator to start.
   /// - Returns: Result of `start()` method.
-  func coordinate<T>(to coordinator: RxBaseCoordinator<T>) -> Observable<T> {
+  public func coordinate<T>(to coordinator: RxBaseCoordinator<T>) -> Observable<T> {
     store(coordinator: coordinator)
     return coordinator
       .start()
@@ -54,7 +52,7 @@ class RxBaseCoordinator<ResultType>: NSObject {
   /// Starts job of the coordinator.
   ///
   /// - Returns: Result of coordinator job.
-  func start() -> Observable<ResultType> {
+  open func start() -> Observable<ResultType> {
     fatalError("Start method should be implemented.")
   }
 

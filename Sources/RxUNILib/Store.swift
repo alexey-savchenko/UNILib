@@ -8,12 +8,13 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Common
 
-typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> Disposable?
+public typealias RxIndependentPlugin<State: Hashable, Action> = (RxStore<State, Action>?) -> Disposable?
 
-final class Store<State: Hashable, Action> {
+public final class RxStore<State: Hashable, Action> {
   private let reducer: Reducer<State, Action>
-  let disposeBag = DisposeBag()
+  public let disposeBag = DisposeBag()
   private let state: BehaviorRelay<State>
   private lazy var dispatchFunction: DispatchFunction<Action> = createDispatchFunction()
   private let reduceQueue = DispatchQueue(
@@ -21,17 +22,17 @@ final class Store<State: Hashable, Action> {
     qos: .background,
     autoreleaseFrequency: .workItem
   )
-  var middleware: [Middleware<State, Action>] = [] {
+  public var middleware: [Middleware<State, Action>] = [] {
     didSet {
       dispatchFunction = createDispatchFunction()
     }
   }
 
-  var stateObservable: Observable<State> {
+  public var stateObservable: Observable<State> {
     return state.asObservable().observeOn(MainScheduler.instance)
   }
 
-  init(
+  public init(
     inputState: State,
     middleware: [Middleware<State, Action>],
     reducer: Reducer<State, Action>
@@ -45,12 +46,12 @@ final class Store<State: Hashable, Action> {
     print("\(self) dealloc")
   }
 
-  func attach(_ plugin: IndependentPlugin<State, Action>) {
+  public func attach(_ plugin: RxIndependentPlugin<State, Action>) {
     weak var weakSelf = self
     plugin(weakSelf)?.disposed(by: disposeBag)
   }
 
-  func attach<T>(_ plugin: Plugin<State, T, Action>) {
+  public func attach<T>(_ plugin: Plugin<State, T, Action>) {
     stateObservable
       .map(plugin.transform)
       .distinctUntilChanged()
@@ -59,7 +60,7 @@ final class Store<State: Hashable, Action> {
       .disposed(by: disposeBag)
   }
 
-  func dispatch(_ action: Action) {
+  public func dispatch(_ action: Action) {
     print("Dispatch at \(time()) - " + String(describing: action).prefix(1000))
     dispatchFunction(action)
   }
@@ -85,7 +86,7 @@ final class Store<State: Hashable, Action> {
   }
 }
 
-extension Store {
+public extension RxStore {
   func dispatch(_ actions: [Action]) {
     actions.forEach(dispatch)
   }

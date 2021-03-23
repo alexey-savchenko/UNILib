@@ -1,21 +1,7 @@
 
 import Foundation
 import Combine
-
-public typealias DispatchFunction<Action> = (Action) -> Void
-public typealias Middleware<State, Action> =
-  (@escaping DispatchFunction<Action>, @escaping () -> State?)
-  -> (@escaping DispatchFunction<Action>)
-  -> DispatchFunction<Action>
-
-public struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
-  
-  typealias Body = (@escaping DispatchFunction<Action>) -> (LocalState) -> Void
-  typealias Transform = (ParentState) -> LocalState
-  
-  let body: Body
-  let transform: Transform
-}
+import Common
 
 public typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> AnyCancellable?
 

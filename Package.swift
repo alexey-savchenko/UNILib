@@ -11,13 +11,17 @@ let package = Package(
   ],
   products: [
     .library(
-      name: "UNILib",
-      targets: ["UNILib"]
+      name: "Common",
+      targets: ["Common"]
+    ),
+    .library(
+      name: "CombineUNILib",
+      targets: ["CombineUNILib"]
     ),
     .library(
       name: "RxUNILib",
       targets: ["RxUNILib"]
-    ),
+    )
   ],
   dependencies: [
     .package(
@@ -27,12 +31,20 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "UNILib",
+      name: "Common",
       dependencies: []
     ),
     .target(
-      name: "RxUNILib",
-      dependencies: ["UNILib", "RxSwift", .product(name: "RxCocoa", package: "RxSwift")]
+      name: "CombineUNILib",
+      dependencies: ["Common"]
     ),
+    .target(
+      name: "RxUNILib",
+      dependencies: [
+        "Common",
+        "RxSwift",
+        .product(name: "RxCocoa", package: "RxSwift")
+      ]
+    )
   ]
 )
