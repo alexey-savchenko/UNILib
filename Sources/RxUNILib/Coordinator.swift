@@ -27,14 +27,14 @@ class RxBaseCoordinator<ResultType>: NSObject {
   /// Stores coordinator to the `childCoordinators` dictionary.
   ///
   /// - Parameter coordinator: Child coordinator to store.
-  private func store<T>(coordinator: BaseCoordinator<T>) {
+  private func store<T>(coordinator: RxBaseCoordinator<T>) {
     childCoordinators[coordinator.identifier] = coordinator
   }
 
   /// Release coordinator from the `childCoordinators` dictionary.
   ///
   /// - Parameter coordinator: Coordinator to release.
-  func free<T>(coordinator: BaseCoordinator<T>) {
+  func free<T>(coordinator: RxBaseCoordinator<T>) {
     childCoordinators[coordinator.identifier] = nil
   }
 
@@ -44,7 +44,7 @@ class RxBaseCoordinator<ResultType>: NSObject {
   ///
   /// - Parameter coordinator: Coordinator to start.
   /// - Returns: Result of `start()` method.
-  func coordinate<T>(to coordinator: BaseCoordinator<T>) -> Observable<T> {
+  func coordinate<T>(to coordinator: RxBaseCoordinator<T>) -> Observable<T> {
     store(coordinator: coordinator)
     return coordinator
       .start()

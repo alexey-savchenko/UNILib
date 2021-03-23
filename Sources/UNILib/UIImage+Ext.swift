@@ -5,6 +5,8 @@
 //  Created by Alexey Savchenko on 23.03.2021.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 public extension UIImage {
@@ -130,3 +132,5 @@ public extension UIImage {
     return scaledImage!
   }
 }
+
+#endif

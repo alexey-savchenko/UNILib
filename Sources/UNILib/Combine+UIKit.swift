@@ -5,6 +5,8 @@
 //  Created by Alexey Savchenko on 18.12.2020.
 //  https://www.avanderlee.com/swift/custom-combine-publisher/
 
+#if canImport(UIKit)
+
 import UIKit
 import Combine
 
@@ -61,3 +63,5 @@ public extension CombineCompatible where Self: UIControl {
         return UIControlPublisher(control: self, events: events)
     }
 }
+
+#endif
