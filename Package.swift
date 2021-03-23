@@ -31,7 +31,7 @@ let package = Package(
     ),
     .target(
       name: "RxUNILib",
-      dependencies: ["UNILib", "RxSwift"]
+      dependencies: ["UNILib", "RxSwift", .product(name: "RxCocoa", package: "RxSwift")]
     ),
   ]
 )
