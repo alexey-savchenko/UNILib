@@ -27,6 +27,11 @@ let package = Package(
     .package(
       url: "https://github.com/ReactiveX/RxSwift.git",
       .exact("6.1.0")
+    ),
+    .package(
+        name: "Reachability",
+        url: "https://github.com/ashleymills/Reachability.swift",
+        .upToNextMajor(from: "5.0.0")
     )
   ],
   targets: [
@@ -43,6 +48,7 @@ let package = Package(
       dependencies: [
         "Common",
         "RxSwift",
+        "Reachability",
         .product(name: "RxCocoa", package: "RxSwift")
       ]
     )
