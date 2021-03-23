@@ -20,6 +20,7 @@ public struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
 #if canImport(RxSwift)
 
 import RxSwift
+import RxCocoa
 
 typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> Disposable?
 
