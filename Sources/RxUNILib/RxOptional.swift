@@ -29,4 +29,11 @@ public extension ObservableType where Element: OptionalType {
       return Observable<Element.Wrapped>.just(value)
     }
   }
+  func mapOptional<T>(_ transform: @escaping (Element.Wrapped) -> T) -> Observable<T?> {
+    return map { elem in elem.value.map(transform) }
+  }
+
+  func flatmapOptional<T>(_ transform: @escaping (Element.Wrapped) -> T?) -> Observable<T?> {
+    return map { elem in elem.value.flatMap(transform) }
+  }
 }
