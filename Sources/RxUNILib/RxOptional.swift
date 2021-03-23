@@ -20,7 +20,7 @@ extension Optional: OptionalType {
   }
 }
 
-extension ObservableType where Element: OptionalType {
+public extension ObservableType where Element: OptionalType {
   func filterNil() -> Observable<Element.Wrapped> {
     return flatMap { element -> Observable<Element.Wrapped> in
       guard let value = element.value else {
