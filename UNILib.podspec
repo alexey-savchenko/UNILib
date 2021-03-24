@@ -19,34 +19,7 @@ Pod::Spec.new do |spec|
   spec.default_subspec = "Common"
   spec.swift_version = '5.0'
   spec.source       = { :git => "https://github.com/alexey-savchenko/UNILib.git", :tag => "#{spec.version}" }
-  # spec.source_files  = "Sources", "Sources/{Common,RxUNILib,CombineUNILib}/*.{swift}"
-  # spec.exclude_files = "Classes/Exclude"
 
-  # spec.public_header_files = "Classes/**/*.h"
-
-  # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  Link your library with frameworks, or libraries. Libraries do not include
-  #  the lib prefix of their name.
-  #
-
-  # spec.framework  = "SomeFramework"
-  # spec.frameworks = "SomeFramework", "AnotherFramework"
-
-  # spec.library   = "iconv"
-  # spec.libraries = "iconv", "xml2"
-
-
-  # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  If your library depends on compiler flags you can set them in the xcconfig hash
-  #  where they will only apply to your library. If you depend on other Podspecs
-  #  you can include multiple dependencies to ensure it works.
-
-  # spec.requires_arc = true
-
-  # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  
   spec.subspec 'Common' do |sp|
     sp.source_files = 'Sources/Common/'
   end
@@ -63,5 +36,4 @@ Pod::Spec.new do |spec|
     sp.dependency "UNILib/Common"
     sp.source_files = 'Sources/CombineUNILib/'
   end
-  
 end
