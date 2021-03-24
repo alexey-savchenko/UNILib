@@ -87,6 +87,14 @@ public func zip3<A, B, C>(
   }
 }
 
+public func onMainQueue(_ block: @escaping () -> Void) {
+  DispatchQueue.main.async(execute: block)
+}
+
+public func onGlobalUtilityQueue(_ block: @escaping () -> Void) {
+  DispatchQueue.global(qos: .utility).async(execute: block)
+}
+
 // MARK: - Preprocessor Macros Wrappers -
 
 /// Execute in a specific build configuration
