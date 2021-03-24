@@ -2,7 +2,7 @@
 //  File.swift
 //  
 //
-//  Created by Alexey Savchenko on 23.03.2021.
+//  Created by Alexey Savchenko on 24.03.2021.
 //
 
 import Foundation
@@ -21,3 +21,5 @@ public struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
   public let body: Body
   public let transform: Transform
 }
+
+

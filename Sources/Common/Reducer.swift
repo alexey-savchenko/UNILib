@@ -1,3 +1,9 @@
+//
+//  File.swift
+//  
+//
+//  Created by Alexey Savchenko on 24.03.2021.
+//
 
 import Foundation
 
@@ -38,7 +44,6 @@ public func <> <Whole, A, B> (
   lhs: Lens<Whole, A>,
   rhs: Lens<Whole, B>
 ) -> Lens<Whole, (A, B)> {
-  
   return Lens<Whole, (A, B)>(
     get: { whole in return (lhs.get(whole), rhs.get(whole)) },
     set: { (arg0: (A, B)) -> (Whole) -> Whole in

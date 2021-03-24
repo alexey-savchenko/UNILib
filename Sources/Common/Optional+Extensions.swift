@@ -56,7 +56,7 @@ public extension Optional {
 
 	@discardableResult
    func `do`(_ f: (Wrapped) -> Void, _ rollback: (() -> Void)? = nil) -> Optional<Wrapped> {
-     if let _ = Optional.prism.tryGet(self) {
+     if let _ = self {
        return flatMap { (value) in
          f(value)
          return self
@@ -67,12 +67,3 @@ public extension Optional {
      }
    }
 }
-
-extension Optional {
-  static var prism: Prism<Optional, Wrapped> {
-    return Prism<Optional, Wrapped>.init(
-      tryGet: { $0 },
-      inject: Optional.some)
-  }
-}
-
