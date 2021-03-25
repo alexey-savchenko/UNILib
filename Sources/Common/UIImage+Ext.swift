@@ -131,6 +131,78 @@ public extension UIImage {
 
     return scaledImage!
   }
+  
+  func tinted(_ tintColor: UIColor) -> UIImage {
+    var image = withRenderingMode(.alwaysTemplate)
+    UIGraphicsBeginImageContextWithOptions(size, false, scale)
+    tintColor.set()
+    image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+    image = UIGraphicsGetImageFromCurrentImageContext()!
+    UIGraphicsEndImageContext()
+    return image.withRenderingMode(.alwaysOriginal)
+  }
+  
+  func rotateImage(radians: CGFloat) -> UIImage {
+    let ciImage = CIImage(image: self)
+
+    let filter = CIFilter(name: "CIAffineTransform")
+    filter?.setValue(ciImage, forKey: kCIInputImageKey)
+    filter?.setDefaults()
+
+    let newAngle = radians * CGFloat(-1)
+
+    var transform = CATransform3DIdentity
+    transform = CATransform3DRotate(transform, CGFloat(newAngle), 0, 0, 1)
+    transform = CATransform3DRotate(transform, 0, 0, 1, 0)
+    transform = CATransform3DRotate(transform, 0, 1, 0, 0)
+
+    let affineTransform = CATransform3DGetAffineTransform(transform)
+    filter?.setValue(NSValue(cgAffineTransform: affineTransform), forKey: "inputTransform")
+    let contex = CIContext(
+      mtlDevice: MTLCreateSystemDefaultDevice()!,
+      options: [.useSoftwareRenderer: false]
+    )
+    let outputImage = filter?.outputImage
+    let cgImage = contex.createCGImage(outputImage!, from: (outputImage?.extent)!)
+    let result = UIImage(cgImage: cgImage!)
+    return result
+  }
+  
+  convenience init?(
+    color: UIColor,
+    size: CGSize = CGSize(width: 1, height: 1)
+  ) {
+    let rect = CGRect(origin: .zero, size: size)
+
+    UIGraphicsBeginImageContextWithOptions(rect.size, false, .zero)
+
+    color.setFill()
+    UIRectFill(rect)
+
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    guard let cgImage = image?.cgImage else {
+      return nil
+    }
+
+    self.init(cgImage: cgImage)
+  }
+}
+
+public extension UIImage.Orientation {
+  init(_ cgOrientation: UIImage.Orientation) {
+    switch cgOrientation {
+    case .up: self = .up
+    case .upMirrored: self = .upMirrored
+    case .down: self = .down
+    case .downMirrored: self = .downMirrored
+    case .left: self = .left
+    case .leftMirrored: self = .leftMirrored
+    case .right: self = .right
+    case .rightMirrored: self = .rightMirrored
+    }
+  }
 }
 
 #endif
