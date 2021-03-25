@@ -20,6 +20,11 @@ public struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
   
   public let body: Body
   public let transform: Transform
+  
+  public init(body: @escaping Body, transform: @escaping Transform) {
+    self.body = body
+    self.transform = transform
+  }
 }
 
 
