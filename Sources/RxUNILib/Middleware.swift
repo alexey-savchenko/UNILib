@@ -26,5 +26,3 @@ public struct Plugin<ParentState: Hashable, LocalState: Hashable, Action> {
     self.transform = transform
   }
 }
-
-

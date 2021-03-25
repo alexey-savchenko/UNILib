@@ -54,10 +54,6 @@ public func <> <Whole, A, B> (
   })
 }
 
-precedencegroup MonoidAppend {
-  associativity: left
-}
-
 public protocol Monoid {
   static var empty: Self { get }
   static func <> (lhs: Self, rhs: Self) -> Self
