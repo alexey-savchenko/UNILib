@@ -182,7 +182,9 @@ public extension UIImage {
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
 
-    guard let cgImage = image?.cgImage else {
+    guard
+      let cgImage = image?.cgImage
+    else {
       return nil
     }
 

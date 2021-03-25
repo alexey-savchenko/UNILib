@@ -1,7 +1,7 @@
 
 import Foundation
 import Combine
-import Common
+import UNILibCore
 
 public typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> AnyCancellable?
 

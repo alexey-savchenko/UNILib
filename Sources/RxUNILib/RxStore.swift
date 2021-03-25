@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import Common
+import UNILibCore
 
 public typealias RxIndependentPlugin<State: Hashable, Action> = (RxStore<State, Action>?) -> Disposable?
 
