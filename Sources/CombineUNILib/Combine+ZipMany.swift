@@ -7,6 +7,7 @@
 
 import Combine
 
+@available(iOS 13.0, *)
 public extension Publishers {
   struct ZipMany<Element, F: Error>: Publisher {
     public typealias Output = [Element]

@@ -3,8 +3,10 @@ import Foundation
 import Combine
 import UNILibCore
 
+@available(iOS 13.0, *)
 public typealias IndependentPlugin<State: Hashable, Action> = (Store<State, Action>?) -> AnyCancellable?
 
+@available(iOS 13.0, *)
 public final class Store<State: Hashable, Action>: ObservableObject {
   
   private let reducer: Reducer<State, Action>
@@ -77,6 +79,7 @@ public final class Store<State: Hashable, Action>: ObservableObject {
   }
 }
 
+@available(iOS 13.0, *)
 public extension Store {
   func dispatch(_ actions: [Action]) {
     actions.forEach(dispatch)

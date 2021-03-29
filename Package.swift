@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
   name: "UNILib",
   platforms: [
-    .iOS(.v13),
+    .iOS(.v12),
     .macOS(SupportedPlatform.MacOSVersion.v10_15)
   ],
   products: [

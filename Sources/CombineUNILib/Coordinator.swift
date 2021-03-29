@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 
+@available(iOS 13.0, *)
 open class BaseCoordinator<ResultType>: NSObject {
 
   /// Utility `DisposeBag` used by the subclasses.

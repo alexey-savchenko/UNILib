@@ -11,6 +11,7 @@ import UIKit
 import Combine
 
 /// A custom subscription to capture UIControl target events.
+@available(iOS 13.0, *)
 public final class UIControlSubscription<SubscriberType: Subscriber, Control: UIControl>: Subscription where SubscriberType.Input == Control {
     private var subscriber: SubscriberType?
     private let control: Control
@@ -36,6 +37,7 @@ public final class UIControlSubscription<SubscriberType: Subscriber, Control: UI
 }
 
 /// A custom `Publisher` to work with our custom `UIControlSubscription`.
+@available(iOS 13.0, *)
 public struct UIControlPublisher<Control: UIControl>: Publisher {
 
   public typealias Output = Control
@@ -58,6 +60,7 @@ public struct UIControlPublisher<Control: UIControl>: Publisher {
 /// Extending the `UIControl` types to be able to produce a `UIControl.Event` publisher.
 public protocol CombineCompatible { }
 extension UIControl: CombineCompatible { }
+@available(iOS 13.0, *)
 public extension CombineCompatible where Self: UIControl {
   func publisher(for events: UIControl.Event) -> UIControlPublisher<UIControl> {
         return UIControlPublisher(control: self, events: events)

@@ -19,6 +19,7 @@ public struct Disposable {
   public static let create = Disposable(dispose: {})
 }
 
+@available(iOS 13.0, *)
 public extension AnyPublisher {
   static func create(subscribe: @escaping (AnyObserver<Output, Failure>) -> Disposable) -> Self {
     let subject = PassthroughSubject<Output, Failure>()
