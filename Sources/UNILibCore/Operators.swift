@@ -19,15 +19,15 @@ precedencegroup ApplicationPrecedence {
 
 infix operator |>: ApplicationPrecedence
 
-func |> <I, O>(lhs: I, rhs: (I) -> O) -> O {
+public func |> <I, O>(lhs: I, rhs: (I) -> O) -> O {
   return rhs(lhs)
 }
 
-func |> <I, O>(lhs: I?, rhs: (I) -> O?) -> O? {
+public func |> <I, O>(lhs: I?, rhs: (I) -> O?) -> O? {
   return lhs.flatMap(rhs)
 }
 
-func |> <I, O>(lhs: I, rhs: (I) -> O?) -> O? {
+public func |> <I, O>(lhs: I, rhs: (I) -> O?) -> O? {
   return rhs(lhs)
 }
 
@@ -82,7 +82,7 @@ public func <> <Whole, A, B> (
 }
 
 infix operator >>>: ApplicationPrecedence
-func >>> (lhs: CIImage, rhs: PositionParams) -> CIImage {
+public func >>> (lhs: CIImage, rhs: PositionParams) -> CIImage {
   let transform =
     CGAffineTransform.identity
       .concatenating(.init(scaleX: rhs.0.width, y: rhs.0.height))
