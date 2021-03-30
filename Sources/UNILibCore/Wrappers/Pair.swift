@@ -9,15 +9,15 @@ import Foundation
 import CoreImage
 
 public struct Pair<A, B> {
-  let left: A
-  let right: B
+  public let left: A
+  public let right: B
 
-  init(left: A, right: B) {
+  public init(left: A, right: B) {
     self.left = left
     self.right = right
   }
 
-  init(_ tuple: (A, B)) {
+  public init(_ tuple: (A, B)) {
     self.left = tuple.0
     self.right = tuple.1
   }
