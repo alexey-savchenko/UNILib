@@ -7,7 +7,7 @@
 
 import CoreGraphics
 
-extension CGPoint {
+public extension CGPoint {
   func square(_ side: CGFloat) -> CGRect {
     return CGRect(
       x: x - side / 2,
