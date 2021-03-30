@@ -7,53 +7,6 @@
 
 import Foundation
 
-precedencegroup CompositionPrecedence {
-  associativity: right
-  higherThan: AssignmentPrecedence
-}
-
-/// Functional composition
-///
-public func map<I, O, O2>(lhs: @escaping (I) -> O,
-                   rhs: @escaping (O) -> O2) -> (I) -> O2 {
-  return { input in
-    return rhs(lhs(input))
-  }
-}
-
-public func map<I, O, O2>(lhs: @escaping (I) -> O?,
-                   rhs: @escaping (O) -> O2?) -> (I) -> O2? {
-  return { input in
-    return lhs(input).flatMap(rhs)
-  }
-}
-
-infix operator <*>: CompositionPrecedence
-public func <*><I, O, O2> (lhs: @escaping (I) -> O,
-                   rhs: @escaping (O) -> O2) -> (I) -> O2 {
-  return map(lhs: lhs, rhs: rhs)
-}
-
-public func <*><I, O, O2> (lhs: @escaping (I) -> O?,
-                   rhs: @escaping (O) -> O2?) -> (I) -> O2? {
-  return map(lhs: lhs, rhs: rhs)
-}
-
-infix operator <>: CompositionPrecedence
-public func <> <Whole, A, B> (
-  lhs: Lens<Whole, A>,
-  rhs: Lens<Whole, B>
-) -> Lens<Whole, (A, B)> {
-  return Lens<Whole, (A, B)>(
-    get: { whole in return (lhs.get(whole), rhs.get(whole)) },
-    set: { (arg0: (A, B)) -> (Whole) -> Whole in
-      let (a, b) = arg0
-      return { (whole: Whole) -> Whole in
-        return lhs.set(a)(rhs.set(b)(whole))
-      }
-  })
-}
-
 public protocol Monoid {
   static var empty: Self { get }
   static func <> (lhs: Self, rhs: Self) -> Self
