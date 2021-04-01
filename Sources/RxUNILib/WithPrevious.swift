@@ -8,9 +8,9 @@
 import Foundation
 import RxSwift
 
-typealias PreviousCurrentPair<E> = (previous: E?, current: E)
+public typealias PreviousCurrentPair<E> = (previous: E?, current: E)
 
-extension ObservableType {
+public extension ObservableType {
   func withPrevious() -> Observable<PreviousCurrentPair<Element>> {
     return scan([], accumulator: { previous, current in
       Array(previous + [current]).suffix(2)
