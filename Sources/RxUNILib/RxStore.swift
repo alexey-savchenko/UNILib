@@ -68,8 +68,8 @@ public final class RxStore<State: Hashable, Action> {
   private func createDispatchFunction() -> DispatchFunction<Action> {
     middleware
       .reversed()
-      .reduce({ [unowned self] action in
-        self.reduce(action)
+      .reduce({ [weak self] action in
+        self?.reduce(action)
       }) { (dispatchFunction, middleware) -> DispatchFunction<Action> in
         let dispatch: (Action) -> Void = { [weak self] in self?.dispatch($0) }
         let getState = { [weak self] in self?.state.value }
