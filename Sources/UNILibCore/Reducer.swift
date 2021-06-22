@@ -21,8 +21,10 @@ public struct Reducer<State, Action> {
 }
 
 extension Reducer: Monoid {
-  public static func <> (lhs: Reducer<State, Action>,
-                  rhs: Reducer<State, Action>) -> Reducer<State, Action> {
+  public static func <> (
+    lhs: Reducer<State, Action>,
+    rhs: Reducer<State, Action>
+  ) -> Reducer<State, Action> {
     return Reducer<State, Action>(reduce: { (s, a) in
       return rhs.reduce(lhs.reduce(s, a), a)
     })
