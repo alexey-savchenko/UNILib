@@ -64,28 +64,36 @@ extension Either: CustomDebugStringConvertible where A: CustomDebugStringConvert
 }
 
 // sourcery: prism
-public enum Loadable<T> {
+public enum Loadable<T, Error: Hashable> {
   case item(item: T)
   case loading(progress: Float)
   case empty
   case error(error: Error)
 
-  public static var indefiniteLoading: Loadable<T> {
+  public static var indefiniteLoading: Loadable<T, Error> {
     return .loading(progress: 0)
   }
 }
 
+extension Loadable: Equatable where T: Equatable {
+	
+}
+
+extension Loadable: Hashable where T: Hashable {
+	
+}
+
 public extension Loadable {
-  func map<U>(_ transform: (T) -> U) -> Loadable<U> {
+  func map<U>(_ transform: (T) -> U) -> Loadable<U, Error> {
     switch self {
     case .empty: return .empty
     case .error(let error): return .error(error: error)
-    case .item(let item): return Loadable<U>.item(item: transform(item))
+    case .item(let item): return Loadable<U, Error>.item(item: transform(item))
     case .loading(let progress): return .loading(progress: progress)
     }
   }
 
-  func flatMap<U>(_ transform: (T) -> Loadable<U>) -> Loadable<U> {
+  func flatMap<U>(_ transform: (T) -> Loadable<U, Error>) -> Loadable<U, Error> {
     switch self {
     case .empty: return .empty
     case .error(let error): return .error(error: error)
@@ -94,7 +102,7 @@ public extension Loadable {
     }
   }
 
-  static func aggregatingProgressIgnoringErrors<V>(_ loadables: [Loadable<V>]) -> Loadable<[V]> {
+	static func aggregatingProgressIgnoringErrors<V>(_ loadables: [Loadable<V, Error>]) -> Loadable<[V], Error> {
     let realExporting: [Float] = loadables
       .compactMap { value in
         switch value {
@@ -107,14 +115,14 @@ public extension Loadable {
     
     if realExporting.count > 0 {
       let preudoExporting: [Float] = loadables
-        .map { loadable -> Loadable<V> in
+        .map { loadable -> Loadable<V, Error> in
           switch loadable {
           case .loading:
             return loadable
           case .item:
-            return Loadable<V>.loading(progress: 1)
+            return Loadable<V, Error>.loading(progress: 1)
           default:
-            return Loadable<V>.indefiniteLoading
+            return Loadable<V, Error>.indefiniteLoading
           }
         }
         .compactMap { value in
@@ -125,7 +133,6 @@ public extension Loadable {
             return nil
           }
         }
-//        .compactMap(Loadable<V>.prism.loading.tryGet)
 
       let overallProgress = preudoExporting.reduce(0.0) { acc, elem in
         acc + elem / Float(preudoExporting.count)
