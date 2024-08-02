@@ -26,7 +26,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/ReactiveX/RxSwift.git",
-      .exact("5.1.0")
+      .exact("6.7.0")
     ),
     .package(
         name: "Reachability",

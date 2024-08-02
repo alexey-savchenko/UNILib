@@ -29,7 +29,7 @@ public final class RxStore<State: Hashable, Action> {
   }
 
   public var stateObservable: Observable<State> {
-    return state.asObservable().observeOn(MainScheduler.instance)
+      return state.asObservable().observe(on: MainScheduler.instance)
   }
 
   public init(
@@ -55,7 +55,7 @@ public final class RxStore<State: Hashable, Action> {
     stateObservable
       .map(plugin.transform)
       .distinctUntilChanged()
-      .observeOn(SerialDispatchQueueScheduler(qos: .background))
+      .observe(on: SerialDispatchQueueScheduler(qos: .background))
       .subscribe(onNext: plugin.body(dispatch))
       .disposed(by: disposeBag)
   }
