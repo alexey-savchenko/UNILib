@@ -9,7 +9,7 @@
 
 import UIKit
 
-public protocol ReusableView: class {}
+public protocol ReusableView: AnyObject {}
 
 public extension ReusableView where Self: UIView {
   static var reuseIdentifier: String {

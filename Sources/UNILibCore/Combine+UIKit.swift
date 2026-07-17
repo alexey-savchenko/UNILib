@@ -12,13 +12,14 @@ import Combine
 
 /// A custom subscription to capture UIControl target events.
 @available(iOS 13.0, *)
-public final class UIControlSubscription<SubscriberType: Subscriber, Control: UIControl>: Subscription where SubscriberType.Input == Control {
+public final class UIControlSubscription<SubscriberType: Subscriber, Control: UIControl>: NSObject, Subscription where SubscriberType.Input == Control {
     private var subscriber: SubscriberType?
     private let control: Control
 
     init(subscriber: SubscriberType, control: Control, event: UIControl.Event) {
         self.subscriber = subscriber
         self.control = control
+        super.init()
         control.addTarget(self, action: #selector(eventHandler), for: event)
     }
 
@@ -35,6 +36,9 @@ public final class UIControlSubscription<SubscriberType: Subscriber, Control: UI
         _ = subscriber?.receive(control)
     }
 }
+
+@available(iOS 13.0, *)
+extension UIControlSubscription: @unchecked Sendable {}
 
 /// A custom `Publisher` to work with our custom `UIControlSubscription`.
 @available(iOS 13.0, *)
