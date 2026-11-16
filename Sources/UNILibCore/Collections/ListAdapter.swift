@@ -62,7 +62,7 @@ public class ListAdapter<
         
         cv.delegate = self
         ds.supplementaryViewProvider = { [unowned self] collectionView, kind, indexPath in
-            let section = self.elements[indexPath.section]
+            guard let section = self.elements[safe: indexPath.section] else { return nil }
             return self.supplementaryProvider?(collectionView, kind, indexPath, section)
         }
     }
@@ -88,14 +88,18 @@ public class ListAdapter<
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        sizing?(elements[indexPath.section].elements[indexPath.item], indexPath) ?? .zero
+        // Read from the data source, not `elements`: during `apply` the layout asks about the snapshot the
+        // collection view still shows, while `elements` already holds the new one.
+        guard let sizing, let element = ds.itemIdentifier(for: indexPath) else { return .zero }
+        return sizing(element, indexPath)
     }
     
     public func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        didSelectItem?(elements[indexPath.section].elements[indexPath.item])
+        guard let element = ds.itemIdentifier(for: indexPath) else { return }
+        didSelectItem?(element)
     }
     
     public func collectionView(
@@ -119,7 +123,8 @@ public class ListAdapter<
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        return headerSizeProvider?(section, elements[section]) ?? .zero
+        guard let headerSizeProvider, let sectionModel = elements[safe: section] else { return .zero }
+        return headerSizeProvider(section, sectionModel)
     }
 }
 

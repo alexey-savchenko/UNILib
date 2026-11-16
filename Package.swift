@@ -18,6 +18,10 @@ let package = Package(
     .target(
       name: "UNILibCore",
       dependencies: []
+    ),
+    .testTarget(
+      name: "UNILibCoreTests",
+      dependencies: ["UNILibCore"]
     )
   ]
 )
